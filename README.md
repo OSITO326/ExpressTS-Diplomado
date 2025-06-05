@@ -1,6 +1,6 @@
 # Template Express with Typescript
 
-This template use Express backend with Typescript, use screaming architecture as directories architecture.
+This template use Express backend with Typescript, trying use screaming architecture.
 
 ---
 
