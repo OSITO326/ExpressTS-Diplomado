@@ -1,0 +1,38 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: diplomado
+    restart: always
+    ports:
+      - '3306:3306'
+    networks:
+      mysql:
+        aliases:
+          - mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=osito
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=diplomado
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - mysql
+    networks:
+      - mysql
+
+volumes:
+  mysql_data:
+
+networks:
+  mysql:
