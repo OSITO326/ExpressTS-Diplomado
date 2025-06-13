@@ -1,7 +1,8 @@
-.env
-
-node_modules/
-dist/
-mysql-data/
+/node_modules
+/dist
+/build
+/mysql-data
 
 /src/generated/prisma
+
+.env
