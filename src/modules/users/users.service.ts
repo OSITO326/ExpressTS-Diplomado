@@ -42,7 +42,7 @@ export const findOne = async (id: string) => {
   return user;
 };
 
-const userExists = async (username: string) => {
+export const userExists = async (username: string) => {
   const user = await prisma.user.findFirst({
     where: {
       username,
