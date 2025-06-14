@@ -53,6 +53,10 @@ export const userExists = async (username: string) => {
     throw new Error('User already exists');
   }
 
+  if (!user) {
+    throw new Error('User not found');
+  }
+
   return user;
 };
 
