@@ -32,6 +32,12 @@ export const findOne = async (id: string) => {
     },
   });
 
+  if (!user) {
+    return {
+      message: 'User not found',
+    };
+  }
+
   return user;
 };
 
