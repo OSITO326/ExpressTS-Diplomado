@@ -1,6 +1,7 @@
 import { hashPassword } from '../../common/hashPassword';
 import { UserInterface } from './interfaces/user.interface';
 import { prisma } from '../../utils/prisma/prismaClient';
+import { UserStatus } from '../../generated/prisma/client';
 
 export const findAll = async () => {
   const users = await prisma.user.findMany({
@@ -63,7 +64,8 @@ const userExistsById = async (id: string) => {
   });
 
   if (!userExists) {
-    return { message: 'User not found' };
+    throw new Error('User not found');
+    // return { message: 'User not found' };
   }
 
   return userExists;
@@ -122,6 +124,46 @@ export const update = async (data: UserInterface, id: string) => {
     where: { id },
     data: updateData,
     select: {
+      username: true,
+      status: true,
+    },
+  });
+
+  return updatedUser;
+};
+
+export const changeStatus = async (
+  id: string,
+  status: UserStatus | string,
+): Promise<{ id: string; username: string; status: UserStatus }> => {
+  const allowedStatuses: UserStatus[] = ['active', 'inactive'];
+
+  // Validar si el status enviado es válido
+  if (!allowedStatuses.includes(status as UserStatus)) {
+    throw new Error(
+      `Invalid status. Must be one of: ${allowedStatuses.join(', ')}`,
+    );
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      username: true,
+    },
+  });
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const updatedUser = await prisma.user.update({
+    where: { id },
+    data: {
+      status: status as UserStatus,
+    },
+    select: {
+      id: true,
       username: true,
       status: true,
     },

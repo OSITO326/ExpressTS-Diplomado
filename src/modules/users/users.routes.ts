@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  activateInactiveUsers,
   createUser,
   deleteUser,
   getUserById,
@@ -15,6 +16,7 @@ router
   .get('/:id', getUserById)
   .delete('/:id', deleteUser)
   .post('/', validate(UserSchema), createUser)
-  .put('/:id', validate(UpdateUserSchema), updateUser);
+  .put('/:id', validate(UpdateUserSchema), updateUser)
+  .patch('/:id', activateInactiveUsers);
 
 export default router;

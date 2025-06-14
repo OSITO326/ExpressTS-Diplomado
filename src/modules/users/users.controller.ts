@@ -1,7 +1,14 @@
 import { Request, Response } from 'express';
 import logger from '../../utils/logs/logger';
 import { type User } from './user.schema';
-import { create, findAll, findOne, removeUser, update } from './users.service';
+import {
+  changeStatus,
+  create,
+  findAll,
+  findOne,
+  removeUser,
+  update,
+} from './users.service';
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
@@ -65,6 +72,25 @@ export const createUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     logger.error(error.message);
     res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+export const activateInactiveUsers = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const user = await changeStatus(id, status);
+
+    res.status(200).json({
+      message: 'User status updated successfully',
+      user,
+    });
+  } catch (error: any) {
+    logger.error(error.message);
+    res.status(400).json({
       message: error.message,
     });
   }
