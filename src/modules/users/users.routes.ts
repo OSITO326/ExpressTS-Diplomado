@@ -9,14 +9,17 @@ import {
 } from './users.controller';
 import { validate } from '../../middlewares/validate';
 import { UpdateUserSchema, UserSchema } from './user.schema';
+import { authenticate } from '../../middlewares/authenticate';
 const router = Router();
 
 router
   .get('/', getUsers)
-  .get('/:id', getUserById)
-  .delete('/:id', deleteUser)
   .post('/', validate(UserSchema), createUser)
-  .put('/:id', validate(UpdateUserSchema), updateUser)
-  .patch('/:id', activateInactiveUsers);
+  .get('/:id', authenticate, getUserById)
+  .delete('/:id', authenticate, deleteUser)
+  .put('/:id', authenticate, validate(UpdateUserSchema), updateUser)
+  .patch('/:id', authenticate, activateInactiveUsers);
+
+// router.get('/:id/task', authenticate, getTask)
 
 export default router;
