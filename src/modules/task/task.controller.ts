@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../../utils/prisma/prismaClient';
 import {
+  changeStatus,
   create,
   findAll,
   findOne,
@@ -99,7 +100,7 @@ export const updateTask = async (req: Request, res: Response) => {
 };
 
 export const taskDone = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  /* const { id } = req.params;
   const { userId } = (req as AuthenticatedRequest).user;
 
   try {
@@ -109,42 +110,31 @@ export const taskDone = async (req: Request, res: Response) => {
     res.status(500).json({
       message: error.message,
     });
-  }
+  } */
 
   // with body json petition
-  /* const { id } = req.params;
+  const { id } = req.params;
   const { userId } = (req as AuthenticatedRequest).user;
   const { done } = req.body;
 
   try {
-    const taskUpdated = await prisma.task.update({
-      where: {
-        id,
-        userId,
-      },
-      data: {
-        done,
-      },
-      select: {
-        done: true,
-      },
-    });
-
-    if (!taskUpdated) {
-      res.status(404).json({
-        message: 'Task not found',
-      });
-    }
+    const taskUpdated = await changeStatus(id, userId, done);
 
     res.status(200).json({
-      message: 'Task updated successfully',
+      message: 'Task status updated successfully',
       task: taskUpdated,
     });
   } catch (error: any) {
-    res.status(500).json({
-      message: error.message,
+    const isNotFound =
+      error.message.includes('not authorized') ||
+      error.message.includes('not found');
+
+    res.status(isNotFound ? 404 : 500).json({
+      message: isNotFound
+        ? 'Task not found or not authorized'
+        : 'Internal server error',
     });
-  } */
+  }
 };
 
 export const deleteTask = async (req: Request, res: Response) => {

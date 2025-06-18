@@ -125,3 +125,35 @@ export const toggleDone = async (id: string, userId: string) => {
     task: updatedTask,
   };
 };
+
+export const changeStatus = async (
+  id: string,
+  userId: string,
+  done: boolean,
+) => {
+  const task = await prisma.task.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (!task || task.userId !== userId) {
+    throw new Error('Task not found or not authorized');
+  }
+
+  const taskUpdated = await prisma.task.update({
+    where: {
+      id,
+      userId,
+    },
+    data: {
+      done,
+    },
+    select: {
+      name: true,
+      done: true,
+    },
+  });
+
+  return taskUpdated;
+};
