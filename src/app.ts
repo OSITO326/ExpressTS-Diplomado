@@ -5,7 +5,7 @@ import authRoutes from './modules/auth/auth.routes';
 import taskRoutes from './modules/task/task.routes';
 
 const app = express();
-const prefix = '/api/v1';
+const prefix = '/api';
 
 app.use(cors());
 app.use(express.json());
