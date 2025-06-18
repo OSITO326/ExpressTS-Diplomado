@@ -28,7 +28,7 @@ docker compose up -d
 See the .env-template to configure `DATABASE_URL` to connect the database.
 
 ```bash
-DATABASE_URL="mysql://johndoe:randompassword@localhost:3306/mydb"
+DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
 ```
 
 Once you configure the `DATABASE_URL`, run this command:
@@ -36,13 +36,13 @@ Once you configure the `DATABASE_URL`, run this command:
 ##### Init prisma
 
 ```bash
-npx prisma init
+npx prisma init # if just in case
 ```
 
 ##### Run migration with prisma
 
 ```bash
-npm prisma migrate
+npm prisma migrate dev # only for development
 ```
 
 ## Run server 🚀
@@ -70,8 +70,8 @@ The field `status` default value as `active`.
 
 Routes for users actions:
 
-- Create user `POST`: `http://localhost/api/v1/users`
-- Get all users `GET`: `http://localhost/api/v1/users`
+- Create user `POST`: `http://localhost/api/users`
+- Get all users `GET`: `http://localhost/api/users`
 
 Once you create the user with your credential, you need login to try the rest of petitions.
 
@@ -79,7 +79,7 @@ Once you create the user with your credential, you need login to try the rest of
 
 To login go to:
 
-- `POST`: `http://localhost:3000/api/v1/login` in the body with your credentials:
+- `POST`: `http://localhost:3000/api/login` in the body with your credentials:
 
 ```json
 {
@@ -100,10 +100,10 @@ To response you recieved the token like that:
 
 You need to put the token before you make the petitions.
 
-- Delete user `DELETE`: `http://localhost/api/v1/users/:id`
-- Update user `PUT`: `http://localhost/api/v1/users/:id`
-- Get a specific user `GET`: `http://localhost/api/v1/users:id`
-- Change status user: `PATCH`: `http://localhost:3000/api/v1/users/:id` - body `json` options only `active` or `inactive`:
+- Delete user `DELETE`: `http://localhost/api/users/:id`
+- Update user `PUT`: `http://localhost/api/users/:id`
+- Get a specific user `GET`: `http://localhost/api/users:id`
+- Change status user: `PATCH`: `http://localhost:3000/api/users/:id` - body `json` options only `active` or `inactive`:
   ```json
   {
     "status": "active"
@@ -120,8 +120,8 @@ With this actions, we can use with Postman or similar.
 > To try this routes you need the Bearer Token.
 > If you do not log in, you will not be able to access the rest of the routes.
 
-- Get all user task: `GET`: `http://localhost:3000/api/v1/task`
-- New user task: `POST`: `http://localhost:3000/api/v1/task` - body `json`:
+- Get all user task: `GET`: `http://localhost:3000/api/task`
+- New user task: `POST`: `http://localhost:3000/api/task` - body `json`:
 
 ```json
 {
@@ -129,8 +129,8 @@ With this actions, we can use with Postman or similar.
 }
 ```
 
-- Get user task by id `GET`: `http://localhost:3000/api/v1/task/:id`
-- Update user a specific task `PUT`: `http://localhost:3000/api/v1/task/:id` - body `json`
+- Get user task by id `GET`: `http://localhost:3000/api/task/:id`
+- Update user a specific task `PUT`: `http://localhost:3000/api/task/:id` - body `json`
 
 ```json
 {
@@ -138,5 +138,11 @@ With this actions, we can use with Postman or similar.
 }
 ```
 
-- Delete user task `DELETE`: `http://localhost:3000/api/v1/task/:id`
-- Toggle user task to Toggle done `true | false` `PATCH`: `http://localhost:3000/api/v1/task/:id`
+- Delete user task `DELETE`: `http://localhost:3000/api/task/:id`
+- Toggle user task to Toggle done `PATCH`: `http://localhost:3000/api/task/:id` - body `json`:
+
+```json
+{
+  "done": true
+}
+```
