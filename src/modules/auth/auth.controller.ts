@@ -16,8 +16,7 @@ export const login = async (req: Request, res: Response) => {
     });
   }
   const secretKey = config.SECRET_KEY;
-  // DO: preguntar ing
-  // const expires = config.EXPIRES_IN || '1h';
+  const expires = eval(config.EXPIRES_IN) || '1h';
   const token = jwt.sign(
     {
       userId: user!.id,
@@ -25,7 +24,7 @@ export const login = async (req: Request, res: Response) => {
     },
     secretKey,
     {
-      expiresIn: '1h',
+      expiresIn: expires,
     },
   );
 
