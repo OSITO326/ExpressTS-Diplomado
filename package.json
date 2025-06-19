@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/main.js",
+    "start": "prisma migrate deploy && node dist/main.js",
     "postinstall": "prisma generate && prisma migrate deploy",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/main.ts",
     "lint": "eslint 'src/**/*.ts'"
