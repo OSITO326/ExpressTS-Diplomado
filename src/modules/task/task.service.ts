@@ -8,7 +8,7 @@ export const create = async (userId: string, name: string) => {
       userId,
     },
     select: {
-      id: true,
+      // id: true,
       name: true,
       done: true,
       User: {
@@ -77,10 +77,10 @@ export const remove = async (id: string, userId: string) => {
       userId,
     },
     select: {
-      id: true,
+      // id: true,
       name: true,
       done: true,
-      userId: true,
+      // userId: true,
       User: {
         select: {
           username: true,
