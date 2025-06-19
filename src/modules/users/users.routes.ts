@@ -3,8 +3,10 @@ import {
   activateInactiveUsers,
   createUser,
   deleteUser,
+  getTask,
   getUserById,
   getUsers,
+  listUsersPaginated,
   updateUser,
 } from './users.controller';
 import { validate } from '../../middlewares/validate';
@@ -20,6 +22,7 @@ router
   .put('/:id', authenticate, validate(UpdateUserSchema), updateUser)
   .patch('/:id', authenticate, activateInactiveUsers);
 
-// router.get('/:id/task', authenticate, getTask)
+router.get('/:id/tasks', authenticate, getTask);
+router.get('/list/pagination', listUsersPaginated);
 
 export default router;

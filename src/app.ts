@@ -13,10 +13,6 @@ app.use(express.json());
 // routes
 app.use(`${prefix}/users`, userRoutes); // users
 app.use(`${prefix}/login`, authRoutes); // auth
-app.use(`${prefix}/task`, taskRoutes); // task
-
-/* app.get('/', (req, res) => {
-  res.send('Hola mundo!');
-}); */
+app.use(`${prefix}/tasks`, taskRoutes); // task
 
 export default app;

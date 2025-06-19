@@ -1,7 +1,8 @@
 import { hashPassword } from '../../common/hashPassword';
 import { UserInterface } from './interfaces/user.interface';
 import { prisma } from '../../utils/prisma/prismaClient';
-import { UserStatus } from '../../generated/prisma/client';
+import { Prisma, UserStatus } from '../../generated/prisma/client';
+import { UserPaginationParams } from './userPagination.schema';
 
 export const findAll = async () => {
   const users = await prisma.user.findMany({
@@ -27,7 +28,7 @@ export const findOne = async (id: string) => {
       id,
     },
     select: {
-      id: true,
+      // id: true,
       username: true,
       status: true,
     },
@@ -170,4 +171,71 @@ export const changeStatus = async (
   });
 
   return updatedUser;
+};
+
+export const getTaskUser = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      username: true,
+      tasks: {
+        select: {
+          name: true,
+          done: true,
+        },
+        where: {
+          done: false,
+        },
+      },
+    },
+  });
+
+  return user;
+};
+
+export const getPaginatedUsers = async ({
+  page,
+  limit,
+  search,
+  orderBy,
+  orderDir,
+}: UserPaginationParams) => {
+  const skip = (page - 1) * limit;
+
+  const where = search
+    ? {
+        username: {
+          contains: search,
+          mode: Prisma.QueryMode.insensitive,
+        },
+      }
+    : {};
+
+  const [total, data] = await Promise.all([
+    prisma.user.count({ where }),
+    prisma.user.findMany({
+      where,
+      skip,
+      take: limit,
+      orderBy: {
+        [orderBy]: orderDir.toLowerCase(),
+      },
+      select: {
+        id: true,
+        username: true,
+        status: true,
+      },
+    }),
+  ]);
+
+  const pages = Math.ceil(total / limit);
+
+  return {
+    total,
+    page,
+    pages,
+    data,
+  };
 };
