@@ -16,6 +16,18 @@ pnpm install # use pnpm
 yarn install # use yarn
 ```
 
+## Set Variables Environment
+
+To configure the variables environment, copy the file `.env-template` to `.env`, and configure the variables:
+
+```bash
+PORT=XXXX
+SECRET_KEY='Secret_Key'
+EXPIRES_IN=60*60
+DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+
+```
+
 ## Run docker DataBase 🐳
 
 ```bash
@@ -103,14 +115,15 @@ You need to put the token before you make the petitions.
 - Delete user `DELETE`: `http://localhost/api/users/:id`
 - Update user `PUT`: `http://localhost/api/users/:id`
 - Get a specific user `GET`: `http://localhost/api/users:id`
-- Change status user: `PATCH`: `http://localhost:3000/api/users/:id` - body `json` options only `active` or `inactive`:
+- Change status user `PATCH`: `http://localhost:3000/api/users/:id` - body `json` options only `active` or `inactive`:
   ```json
   {
     "status": "active"
   }
   ```
+- Get task user where task are NOT `done` yet `GET`: `http://localhost:3000/api/users/:id/tasks`
 
-With this actions, we can use with Postman or similar.
+  With this actions, we can use with Postman or similar.
 
 ---
 
@@ -120,8 +133,8 @@ With this actions, we can use with Postman or similar.
 > To try this routes you need the Bearer Token.
 > If you do not log in, you will not be able to access the rest of the routes.
 
-- Get all user task: `GET`: `http://localhost:3000/api/task`
-- New user task: `POST`: `http://localhost:3000/api/task` - body `json`:
+- Get all user task: `GET`: `http://localhost:3000/api/tasks`
+- New user task: `POST`: `http://localhost:3000/api/tasks` - body `json`:
 
 ```json
 {
@@ -129,8 +142,8 @@ With this actions, we can use with Postman or similar.
 }
 ```
 
-- Get user task by id `GET`: `http://localhost:3000/api/task/:id`
-- Update user a specific task `PUT`: `http://localhost:3000/api/task/:id` - body `json`
+- Get user task by id `GET`: `http://localhost:3000/api/tasks/:id`
+- Update user a specific task `PUT`: `http://localhost:3000/api/tasks/:id` - body `json`
 
 ```json
 {
@@ -138,8 +151,8 @@ With this actions, we can use with Postman or similar.
 }
 ```
 
-- Delete user task `DELETE`: `http://localhost:3000/api/task/:id`
-- Toggle user task to Toggle done `PATCH`: `http://localhost:3000/api/task/:id` - body `json`:
+- Delete user task `DELETE`: `http://localhost:3000/api/tasks/:id`
+- Toggle user task to Toggle done `PATCH`: `http://localhost:3000/api/tasks/:id` - body `json`:
 
 ```json
 {
