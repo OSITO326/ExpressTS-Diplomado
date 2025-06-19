@@ -1,7 +1,7 @@
 import { hashPassword } from '../../common/hashPassword';
 import { UserInterface } from './interfaces/user.interface';
 import { prisma } from '../../utils/prisma/prismaClient';
-import { Prisma, UserStatus } from '../../generated/prisma/client';
+import { Prisma, UserStatus } from '@prisma/client';
 import { UserPaginationParams } from './userPagination.schema';
 
 export const findAll = async () => {
