@@ -125,6 +125,53 @@ You need to put the token before you make the petitions.
 
   With this actions, we can use with Postman or similar.
 
+- Get list user with pagination and query params `GET`: `http://localhost:3000/api/users/list/pagination?page=1&limit=5&search=er&orderBy=username&orderDir=DESC`
+  query params:
+  | Param | Default | Values |
+  | ------------- | -------------- | -------------- |
+  | page | 1 | - |
+  | limit | 10 | 5, 10, 15, 20 |
+  | search | | - |
+  | orderBy | id | id, username, status |
+  | orderDir | DESC | ASC, DESC |
+
+  Response:
+
+  ```json
+  {
+    "total": 10,
+    "page": 1,
+    "pages": 2,
+    "data": [
+      {
+        "id": "8050c5b9-9c8c-4bc9-9ded-5fe13a6b1016",
+        "username": "user9",
+        "status": "active"
+      },
+      {
+        "id": "bd4bfd71-721c-4ef9-9a96-592f9a4b2f2a",
+        "username": "user8",
+        "status": "active"
+      },
+      {
+        "id": "1f4ebdbb-6e71-49ff-be93-9320273ec8ad",
+        "username": "user7",
+        "status": "active"
+      },
+      {
+        "id": "5e166a93-bc16-42ab-9db8-f8fa60f467a1",
+        "username": "user6",
+        "status": "active"
+      },
+      {
+        "id": "ac6d6c8d-6e3a-4179-a231-265a717ae856",
+        "username": "user5",
+        "status": "active"
+      }
+    ]
+  }
+  ```
+
 ---
 
 ### Task Routes
